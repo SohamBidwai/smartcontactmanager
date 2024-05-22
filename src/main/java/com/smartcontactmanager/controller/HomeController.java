@@ -21,7 +21,7 @@ public class HomeController {
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping("/")
+    @RequestMapping("/home")
     public String home(Model model){
 
         model.addAttribute("title","Welcome to Smart Contact Manager..");
@@ -56,7 +56,7 @@ public class HomeController {
             if(result1.hasErrors()){
                 System.out.println("Errors: " + result1.toString());
                 //model.addAttribute("user","user");
-                return "signup";
+                return "n";
             }
 
             user.setRole("Normal User");
