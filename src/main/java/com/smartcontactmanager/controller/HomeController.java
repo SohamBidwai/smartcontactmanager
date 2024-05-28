@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,11 +22,21 @@ public class HomeController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired(required=true)
+    private BCryptPasswordEncoder passwordEncoder;
+
     @RequestMapping("/home")
     public String home(Model model){
 
         model.addAttribute("title","Welcome to Smart Contact Manager..");
         return "home";
+    }
+
+    @RequestMapping("/signin")
+    public String loginPage(Model model){
+        model.addAttribute("title","Login to Contact Manager");
+
+        return "login";
     }
 
     @RequestMapping("/about")
@@ -62,6 +73,7 @@ public class HomeController {
             user.setRole("Normal User");
             user.setEnabled(true);
             //user.setImgurl("aa.png");
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
 
             User result = this.userRepository.save(user);
             model.addAttribute("user",new User());

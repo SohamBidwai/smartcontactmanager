@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     //in below line email value come as dynamic value
-    @Query("select u from User u where u.email = email")
-    public User getUserByEmail(@Param("email") String email);
+    @Query("select u from User u where u.name = :name")
+    public User getUserByEmail(@Param("name") String name);
 
 }

@@ -17,7 +17,7 @@ public class User {
     private int id;
     @NotBlank(message = "mandatory field")
     @Size(min=2, max=20, message="minimum 2 or maximum 20 charecter")
-    private String name;
+    public String name;
     @Email(regexp = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")
     private String email;
     @Size(min=2, message = "Minimum 6 Character required.")
