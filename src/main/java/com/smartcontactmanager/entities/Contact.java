@@ -1,6 +1,7 @@
 package com.smartcontactmanager.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "CONTACT")
@@ -14,6 +15,7 @@ public class Contact {
     private String work;
     @Column(unique = true)
     private String email;
+    @Size(min = 10, max = 10, message = "Number must be contain at least 10 digits.")
     private String mobile;
     private String image;
     @Column(length = 500)

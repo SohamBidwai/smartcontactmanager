@@ -1,11 +1,14 @@
 package com.smartcontactmanager.controller;
 
 import com.smartcontactmanager.dao.UserRepository;
+import com.smartcontactmanager.entities.Contact;
 import com.smartcontactmanager.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
@@ -17,20 +20,46 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping("/dashboard")
-    public String dashboard(Model model, Principal principal){
+    @ModelAttribute
+    public void addCommonData(Model m, Principal principal){
         //This method used for sending information of login user to dashboard page.
         //Principal it's an part of java.security class. With the help of this we can fetch User Login Name or Username or User ID
-
         String name = principal.getName();
         System.out.println("Name: "+name);
         //get the user using username(Email)
-        User user = this.userRepository.getUserByEmail(name);   //fetch the login user details against username.
-        model.addAttribute("user1", user); //pass user details to user attribute of Model.
-        model.addAttribute("title","User Details");
+        User user = this.userRepository.getUserByName(name);   //fetch the login user details against username.
+        m.addAttribute("user1", user); //pass user details to user attribute of Model.
+        m.addAttribute("title","User Details");
         //System.out.println("User Details: " + user);
+    }
 
+    @RequestMapping("/dashboard")
+    public String dashboard(Model model, Principal principal){
+        //addCommonData(model, principal);
+        model.addAttribute("title","User Dashboard");
         return "normal_user/userDashboard";
+    }
+
+    //open add form Handler
+    @GetMapping("/add-contact")
+    public String openAddContactForm(Model model){
+        model.addAttribute("title","Add Contact Details");
+        model.addAttribute("contact",new Contact());    //this attribute fetch on addContactForm page
+        return "normal_user/addContactForm";
+    }
+
+    @PostMapping("/process-contact")
+    public String addContactDetails(@ModelAttribute Contact contact, Principal principal){
+        //System.out.println("Data Contact:  " + contact);
+        String name = principal.getName();
+        //System.out.println("name: "+ name);
+        User user1 = this.userRepository.getUserByName(name);
+        //System.out.println("Data Contact:  " + user1);
+        contact.setUser(user1);
+        user1.getContacts().add(contact);
+        this.userRepository.save(user1);
+
+        return "normal_user/addContactForm";
     }
 
 }

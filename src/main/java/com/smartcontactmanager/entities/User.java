@@ -27,6 +27,10 @@ public class User {
     private String imageurl;
     @Column(length = 500)
     private String about;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Contact> contacts = new ArrayList<>();
+
     public int getId() {
         return id;
     }
@@ -75,6 +79,13 @@ public class User {
     public void setAbout(String about) {
         this.about = about;
     }
+    public List<Contact> getContacts() {
+        return contacts;
+    }
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
+    }
+
     @Override
     public String toString() {
         return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", role=" + role

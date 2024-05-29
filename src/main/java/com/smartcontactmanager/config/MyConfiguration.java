@@ -21,7 +21,7 @@ public class MyConfiguration{
         httpSecurity.csrf(csrf -> csrf.disable())
                         .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/home","/do_register","/css/**", "/js/**", "/images/**").permitAll()
+                                .requestMatchers("/home","/signup","/do_register","/css/**", "/js/**", "/images/**").permitAll()
                                 //.requestMatchers("/signup").hasRole("admin") // A. Restrict access to /admin/** to ADMIN role
                                 //.requestMatchers("/signup/**").hasRole("admin") // B. Above line and this line both are used to set User Role Based Access.
                                 //A is restrict the URL mentioned in requestMatchers and B is URL pattern that matches any request that starts with mentioned in requestMatchers.

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{normal_user/innerBase::Layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+</head>
+<body>
+<section>
+    <div class="card mr-4 ml-3" style="height: 100%; width: 96.5%; background: #ffffff !important; border: 0px;">
+        <div class="card-body">
+                <h1 class="text-center">Add Contact</h1>
+                <div class="container-fluid mt-1">
+                    <div class="row">
+                        <div class="col-md-10 offset-md-1">
+                            <form action="#" th:object="${contact}" enctype="multipart/form-data" method="post"
+                                  th:action="@{/user/process-contact}" class="mt-2">
+                                <!-- 1 -->
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text mr-3">
+                                            <i class="fa fa-plus"></i>
+                                        </div>
+                                    </div>
+                                    <input type="text" id="firstName" name="name" placeholder="Enter name Here" class="fomr-control" style="width: 90%;" />
+                                </div>
+
+                                <!-- 2 -->
+                                <div class="input-group mt-3">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text mr-3">
+                                            <i class="fa fa-user-alt"></i>
+                                        </div>
+                                    </div>
+                                    <input type="text" id="second_name" name="second_name" placeholder="Second name Here" class="fomr-control" style="width: 90%;" />
+                                </div>
+
+                                <!-- 3 -->
+                                <div class="input-group mt-3">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text mr-3">
+                                            <i class="fa fa-briefcase"></i>
+                                        </div>
+                                    </div>
+                                    <input type="text" id="work" name="work" placeholder="Enter Work Details Here" class="fomr-control" style="width: 90%;" />
+                                </div>
+
+                                <!-- 4 -->
+                                <div class="input-group mt-3">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text mr-3">
+                                            <i class="fas fa-envelope"></i>
+                                        </div>
+                                    </div>
+                                    <input type="text" id="email" name="email" placeholder="Enter Mail-id Here" class="fomr-control" style="width: 90%;" />
+                                </div>
+
+                                <!-- 5 -->
+                                <div class="input-group mt-3">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text mr-3">
+                                            <i class="fas fa-mobile"></i>
+                                        </div>
+                                    </div>
+                                    <input type="text" id="mobile" name="mobile" placeholder="Enter Phone Number Here" class="fomr-control"
+                                           th:classappend="${#fields.hasErrors('mobile')} ? 'is-invalid' : ''" style="width: 90%;" />
+
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}">
+                                    </div>
+
+                                </div>
+
+                                <!-- 6 -->
+                                <div class="input-group mt-3">
+                                    <textarea placeholder="Enter Contact Description" name="description" id="description" class="form-control" rows="10">
+
+                                    </textarea>
+                                </div>
+
+                                <!--<div class="custom-file">
+                                    <input type="file" name="image" />
+                                </div>-->
+
+                                <div class="container text-center">
+                                    <button class="btn bg-primary">Submit</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
