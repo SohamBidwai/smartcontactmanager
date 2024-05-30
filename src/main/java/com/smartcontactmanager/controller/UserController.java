@@ -3,13 +3,13 @@ package com.smartcontactmanager.controller;
 import com.smartcontactmanager.dao.UserRepository;
 import com.smartcontactmanager.entities.Contact;
 import com.smartcontactmanager.entities.User;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -49,17 +49,30 @@ public class UserController {
     }
 
     @PostMapping("/process-contact")
-    public String addContactDetails(@ModelAttribute Contact contact, Principal principal){
-        //System.out.println("Data Contact:  " + contact);
-        String name = principal.getName();
-        //System.out.println("name: "+ name);
-        User user1 = this.userRepository.getUserByName(name);
-        //System.out.println("Data Contact:  " + user1);
-        contact.setUser(user1);
-        user1.getContacts().add(contact);
-        this.userRepository.save(user1);
+    public String addContactDetails(@Valid @ModelAttribute("contact") Contact contact, BindingResult result1, Principal principal, Model model, HttpSession session)
+    {
+        try {
 
-        return "normal_user/addContactForm";
+            if(result1.hasErrors()){
+                System.out.println("Errors: " + result1.toString());
+                //model.addAttribute("user","user");
+                return "normal_user/addContactForm";
+            }
+
+            //System.out.println("Data Contact:  " + contact);
+            String name = principal.getName();
+            //System.out.println("name: "+ name);
+            User user1 = this.userRepository.getUserByName(name);
+            //System.out.println("Data Contact:  " + user1);
+            contact.setUser(user1);
+            user1.getContacts().add(contact);
+            this.userRepository.save(user1);
+
+            return "normal_user/addContactForm";
+        }catch (Exception e){
+            System.out.println("Exception in process-contact: "+ e.getMessage());
+            return "normal_user/addContactForm";
+        }
     }
 
 }
