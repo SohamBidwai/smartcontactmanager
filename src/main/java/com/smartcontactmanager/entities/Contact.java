@@ -1,6 +1,8 @@
 package com.smartcontactmanager.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -10,10 +12,13 @@ public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int cid;
+    @NotBlank(message = "mandatory field")
+    @Size(min=2, max=15, message="minimum 2 or maximum 15 charecter")
     private String name;
     private String second_name;
     private String work;
     @Column(unique = true)
+    @Email(regexp = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")
     private String email;
     @Size(min = 10, max = 10, message = "Number must be contain at least 10 digits.")
     private String mobile;
