@@ -18,6 +18,7 @@ public class Contact {
     private String second_name;
     private String work;
     @Column(unique = true)
+    @NotBlank(message = "mandatory field")
     @Email(regexp = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")
     private String email;
     @Size(min = 10, max = 10, message = "Number must be contain at least 10 digits.")

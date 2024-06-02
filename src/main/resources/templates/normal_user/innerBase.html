@@ -52,7 +52,7 @@
             <span onclick="toggelSideBar()" class="crossBtn">&times;</span>
 
             <a href="#" th:href="@{/user/dashboard}" class="item"> <i class="fas fa-home"></i> Home</a>
-            <a href="#" class="item"> <i class="fas fa-id-card-alt"></i> View Contacts</a>
+            <a href="#" th:href="@{/user/getcontact/0}" class="item"> <i class="fas fa-id-card-alt"></i> View Contacts</a>
             <a href="#" th:href="@{/user/add-contact}" class="item"> <i class="fas fa-pencil-alt"></i> Add Contact</a>
             <a href="#" class="item"> <i class="fas fa-user-circle"></i> Profile</a>
             <a href="#" class="item"> <i class="fas fa-cogs"></i> Setting</a>
@@ -64,6 +64,14 @@
 
             <i onclick="toggelSideBar()" class="fas fa-bars m-3"></i>
 
+            <!-- Following is an alert message after add contact or any error generate during adding. -->
+            <div  th:if="${session.message}" class="container mt-2" style="width: 30%; float: right;">
+                <div th:classappend="${'alert-'+session.message.typeString}" class="alert" role="alert">
+                    <span th:text="${session.message.content}"></span>
+                </div>
+            </div>
+
+            <!-- On following line content come from another web page and append to content -->
             <div th:replace="${content}"></div>
         </div>
 

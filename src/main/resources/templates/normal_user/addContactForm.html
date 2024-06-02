@@ -21,7 +21,7 @@
                                             <i class="fa fa-plus"></i>
                                         </div>
                                     </div>
-                                    <input type="text" id="firstName" name="name" placeholder="Enter name Here" class="fomr-control"
+                                    <input required type="text" id="firstName" name="name" placeholder="First name Here" class="fomr-control"
                                            th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''" style="width: 90%;" />
                                     <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
                                     </div>
@@ -34,7 +34,7 @@
                                             <i class="fa fa-user-alt"></i>
                                         </div>
                                     </div>
-                                    <input type="text" id="second_name" name="second_name" placeholder="Second name Here" class="fomr-control" style="width: 90%;" />
+                                    <input type="text" id="second_name" name="second_name" placeholder="Last name Here" class="fomr-control" style="width: 90%;" />
                                 </div>
 
                                 <!-- 3 -->
@@ -44,7 +44,7 @@
                                             <i class="fa fa-briefcase"></i>
                                         </div>
                                     </div>
-                                    <input type="text" id="work" name="work" placeholder="Enter Work Details Here" class="fomr-control" style="width: 90%;" />
+                                    <input required type="text" id="work" name="work" placeholder="Enter Work Details Here" class="fomr-control" style="width: 90%;" />
                                 </div>
 
                                 <!-- 4 -->
@@ -54,7 +54,7 @@
                                             <i class="fas fa-envelope"></i>
                                         </div>
                                     </div>
-                                    <input type="text" id="email" name="email" placeholder="Enter Mail-id Here" class="fomr-control"
+                                    <input required type="text" id="email" name="email" placeholder="Enter Mail-id Here" class="fomr-control"
                                           th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''" style="width: 90%;" />
 
                                     <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
@@ -68,7 +68,7 @@
                                             <i class="fas fa-mobile"></i>
                                         </div>
                                     </div>
-                                    <input type="text" id="mobile" name="mobile" placeholder="Enter Phone Number Here" class="fomr-control"
+                                    <input type="number" id="mobile" name="mobile" placeholder="Enter Phone Number Here" class="fomr-control"
                                            th:classappend="${#fields.hasErrors('mobile')} ? 'is-invalid' : ''" style="width: 90%;" />
 
                                     <div class="invalid-feedback" th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}">
@@ -83,11 +83,11 @@
                                     </textarea>
                                 </div>
 
-                                <!--<div class="custom-file">
-                                    <input type="file" name="image" />
-                                </div>-->
+                                <div class="custom-file mt-3">
+                                    <input type="file" name="profileImage" />
+                                </div>
 
-                                <div class="container text-center">
+                                <div class="container text-center mt-2">
                                     <button class="btn bg-primary">Submit</button>
                                 </div>
 
