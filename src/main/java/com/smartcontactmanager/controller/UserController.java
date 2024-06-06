@@ -25,6 +25,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/user")
@@ -89,6 +90,7 @@ public class UserController {
             if(file.isEmpty()){
                 //file is empty
                 //return "normal_user/addContactForm";
+                contact.setImage("contact.png");
             }else{
                 //upload file and concat the name
 
@@ -96,6 +98,7 @@ public class UserController {
 
                 String fileType = file.getOriginalFilename().toString();
                 /*if (fileType.equals("image/png") || fileType.equals("image/jpeg") || fileType.equals("image/jpg")) {*/
+                    contact.setImage(file.getOriginalFilename());
                     File uploadingFile =new ClassPathResource("static/img").getFile();
                     //path for uploading file
                     Path path =  Paths.get(uploadingFile.getAbsolutePath()+File.separator+file.getOriginalFilename());
@@ -130,8 +133,9 @@ public class UserController {
 
 
     //show contact list of a user
-    //following is an List type controller, in this controller we
-    //pegination is also handle from backend. (per page 10 record)
+    //following is an List type controller, in this controller we pass list of record on View page.
+    //pegination is also handle from backend. (per page 5 record)
+    //In following {page} this path variable i.e. page number.
     @GetMapping("/getcontact/{page}")
     public String contactList(@PathVariable("page") Integer page,Model model, Principal principal){
         model.addAttribute("title","User Contact List");
@@ -141,17 +145,60 @@ public class UserController {
             //user.getContacts();
 
             //Pegination
-            //In below code page is an number of the particular page and 5 is an no of records show on per page.
+            //In below code page is particular page number and 5 is no of records show on per page and this both condition is handle by Pageable.
             Pageable pageable = PageRequest.of(page, 5);
 
             //second way
             Page<Contact> userContactList = this.contactRepository.findAllById(user.getId(), pageable);
             model.addAttribute("contactList", userContactList);
             model.addAttribute("currentPage", page);    //It's a part if pegination
-            model.addAttribute("totalPages", userContactList.getTotalPages()); //It's a part if pegination
+            model.addAttribute("totalPages", userContactList.getTotalPages());
+            //Above line code is an part if pegination, we fetch total number of pages from list, because list we stored Result list of data in Page
 
         return "normal_user/viewContactsList";
 
+    }
+
+    //fetch particular contact details
+    @GetMapping("/{cid}/contact")
+    public String fetchParticularContactDetails(@PathVariable("cid") Integer contact_id, Model model, Principal principal){
+
+        Optional<Contact> contactOptional = this.contactRepository.findById(contact_id);
+        Contact contact = contactOptional.get();
+
+        String loginUser = principal.getName();
+        User user = this.userRepository.getUserByName(loginUser);
+
+        if(user.getId()==contact.getUser().getId()){
+            model.addAttribute("contact",contact);
+            String name = contact.getName()+" "+contact.getSecond_name()+" Details";
+            model.addAttribute("title", name);
+        }
+
+        return "normal_user/contact_details";
+    }
+
+
+    //delete particular record
+    @GetMapping("/delete/{cid}")
+    public String deleteParticularEntry(@PathVariable("cid") Integer contact_id, Model model, Principal principal, HttpSession session){
+
+        Optional<Contact> contactOptional = this.contactRepository.findById(contact_id);
+        Contact contact = contactOptional.get();
+
+        String loginUser = principal.getName();
+        User userDetails = this.userRepository.getUserByName(loginUser);
+
+        if(userDetails.getId()==contact.getUser().getId()){
+            //before delete operation execute we need to unlink this contact from the user.
+            System.out.println("Check User to delete.");
+            contact.setUser(null);
+            this.contactRepository.deleteById(contact.getCid());
+            model.addAttribute("message",new Message("Contact deleted successfully....!", "success"));
+            return "redirect:/user/getcontact/0";
+        }
+
+        return "redirect:/user/getcontact/0";
     }
 
 }

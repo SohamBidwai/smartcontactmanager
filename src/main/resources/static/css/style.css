@@ -170,3 +170,10 @@ margin-left: 4px;
     cursor: pointer;
     margin-top: -38px;
 }
+
+.my_profile_picture{
+    width:35px;
+    height:35px;
+    object-fit:scale-down;
+    border-radius:50%;
+}

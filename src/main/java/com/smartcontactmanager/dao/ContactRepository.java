@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ContactRepository extends JpaRepository<Contact, Integer> {
 
-    @Query("select c from Contact as c where c.user.id =:id")
-    public Page<Contact> findAllById(@Param("id") int id, Pageable pageable); //Pageable contain Current page and contact per page
+    @Query("select c from Contact as c where c.user.id =:id order by cid desc")
+    public Page<Contact> findAllById(@Param("id") int id, Pageable pageable); //Pageable contain Current page and how many records need to show on page
 
 }
