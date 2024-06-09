@@ -137,7 +137,7 @@ public class UserController {
     //pegination is also handle from backend. (per page 5 record)
     //In following {page} this path variable i.e. page number.
     @GetMapping("/getcontact/{page}")
-    public String contactList(@PathVariable("page") Integer page,Model model, Principal principal){
+    public String contactList(@PathVariable("page") Integer page,Model model, Principal principal, HttpSession session){
         model.addAttribute("title","User Contact List");
             //first way
             String userName = principal.getName();
@@ -155,6 +155,7 @@ public class UserController {
             model.addAttribute("totalPages", userContactList.getTotalPages());
             //Above line code is an part if pegination, we fetch total number of pages from list, because list we stored Result list of data in Page
 
+            session.removeAttribute("message");
         return "normal_user/viewContactsList";
 
     }
@@ -194,6 +195,9 @@ public class UserController {
             System.out.println("Check User to delete.");
             contact.setUser(null);
             this.contactRepository.deleteById(contact.getCid());
+
+            //image delete is pending.
+
             model.addAttribute("message",new Message("Contact deleted successfully....!", "success"));
             return "redirect:/user/getcontact/0";
         }

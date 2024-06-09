@@ -48,7 +48,8 @@
             </div>
             <div class="mr-3 ml-3 mt-3 mb-3 text-center">
             <button class="btn btn-primary btn-sm">Update</button>
-                <a th:href="@{'/user/delete/'+${contact.cid}}" class="btn btn-danger btn-sm">Delete</a>
+                <!--<a th:href="@{'/user/delete/'+${contact.cid}}" class="btn btn-danger btn-sm">Delete</a>-->
+                <a href="#" th:onclick="deleteContact([[${contact.cid}]])" class="btn btn-danger btn-sm">Delete</a>
         </div>
         </div>
         <h3 th:unless="${contact}" class="text-center">You are unauthorized person to view this contact...!</h3>

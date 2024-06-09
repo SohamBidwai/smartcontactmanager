@@ -40,7 +40,8 @@
                     </td>
                     <td>
                         <button class="btn btn-primary btn-sm">Update</button>
-                        <a th:href="@{'/user/delete/'+${c.cid}}" class="btn btn-danger btn-sm">Delete</a>
+                        <!--<a th:href="@{'/user/delete/'+${c.cid}}" class="btn btn-danger btn-sm">Delete</a>-->
+                        <a href="#" th:onclick="deleteContact([[${c.cid}]])" class="btn btn-danger btn-sm">Delete</a>
                     </td>
                 </tr>
             </tbody>
@@ -54,7 +55,7 @@
                 </li>
 
                 <li th:classappend="${currentPage==i-1 ? 'active' : ''}" th:each="i : ${#numbers.sequence(1,totalPages)}" class="page-item">
-                    <a th:href="@{'/user/getcontact/'+${i-1}}" class="page-link" href="#">
+                    <a th:href="@{'/user/getcontact/'+${i-1}}" class="page-link bg-primary" style="border: none;" href="#">
                         <span th:text="${i}"></span>
                     </a>
                 </li>
