@@ -42,7 +42,7 @@ public class UserController {
         //This method used for sending information of login user to dashboard page.
         //Principal it's an part of java.security class. With the help of this we can fetch User Login Name or Username or User ID
         String name = principal.getName();
-        System.out.println("Name: "+name);
+        //System.out.println("Name: "+name);
         //get the user using username(Email)
         User user = this.userRepository.getUserByName(name);   //fetch the login user details against username.
         m.addAttribute("user1", user); //pass user details to user attribute of Model.
@@ -202,6 +202,63 @@ public class UserController {
             return "redirect:/user/getcontact/0";
         }
 
+        return "redirect:/user/getcontact/0";
+    }
+
+    //fetch details to contact to update for view details
+    @PostMapping("/update-record/{cid}")
+    public String updateParticularRecord(@PathVariable("cid") Integer contact_id,Model model, Principal principal, HttpSession session){
+        System.out.println("Check Contact Person Id: " + contact_id);
+        model.addAttribute("title","Update Contact Details");
+
+        Contact contact = this.contactRepository.findById(contact_id).get();
+        model.addAttribute("contact",contact);
+
+        return "normal_user/update_contact_details";
+    }
+
+
+    //update contact details handler to save
+    //@RequestMapping(value = "/update-contact", method = RequestMethod.POST)
+    @PostMapping("/update-contact")
+    public String updateContactDetails(@ModelAttribute Contact contact, @RequestParam("profileImage") MultipartFile file,
+                                       Model model, Principal principal ,HttpSession session)
+    //@ModelAttribute it's used save the entity data which is comeing to handler
+    {
+        System.out.println("Name: " + contact.getName());
+        System.out.println("Id: " + contact.getCid());
+        try {
+
+            Contact oldContactDetails = this.contactRepository.findById(contact.getCid()).get();
+
+            if(!file.isEmpty())
+            {
+                //rewrite file upload new one and delete old one
+                //First delete old photo and then upload new photo
+                //delete old photo
+                File deleteFile =new ClassPathResource("static/img").getFile();
+                File toDeleteFileName = new File(deleteFile, oldContactDetails.getImage());
+                toDeleteFileName.delete();
+
+                //upload new photo
+                File uploadingFile =new ClassPathResource("static/img").getFile();
+                Path path =  Paths.get(uploadingFile.getAbsolutePath()+File.separator+file.getOriginalFilename());
+                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+                contact.setImage(file.getOriginalFilename());
+            }else{
+                contact.setImage(oldContactDetails.getImage());
+            }
+            //need to set user id before save[user id means contact against User]
+            User user = this.userRepository.getUserByName(principal.getName());
+
+            contact.setUser(user);
+            this.contactRepository.save(contact);       //here we save the contact
+
+            session.setAttribute("message",new Message("Your contact update successfully.","success"));
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return "redirect:/user/getcontact/0";
     }
 

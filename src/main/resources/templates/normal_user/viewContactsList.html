@@ -39,9 +39,13 @@
                         </a>
                     </td>
                     <td>
-                        <button class="btn btn-primary btn-sm">Update</button>
-                        <!--<a th:href="@{'/user/delete/'+${c.cid}}" class="btn btn-danger btn-sm">Delete</a>-->
-                        <a href="#" th:onclick="deleteContact([[${c.cid}]])" class="btn btn-danger btn-sm">Delete</a>
+                        <div style="display: flex; justify-content: space-evenly;">
+                            <form th:action="@{'/user/update-record/'+${c.cid}}" method="post"> <!-- used of form tag around button work as a PostMapping -->
+                                <button class="btn btn-primary btn-sm">Update</button>
+                            </form>
+                            <!--<a th:href="@{'/user/delete/'+${c.cid}}" class="btn btn-danger btn-sm">Delete</a>-->
+                            <a href="#" th:onclick="deleteContact([[${c.cid}]])" class="btn btn-danger btn-sm">Delete</a>
+                        </div>
                     </td>
                 </tr>
             </tbody>

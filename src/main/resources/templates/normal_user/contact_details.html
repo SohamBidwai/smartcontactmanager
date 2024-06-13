@@ -47,7 +47,9 @@
                 <th:block th:text="${contact.description}"></th:block>
             </div>
             <div class="mr-3 ml-3 mt-3 mb-3 text-center">
-            <button class="btn btn-primary btn-sm">Update</button>
+                <form th:action="@{'/user/update-record/'+${contact.cid}}" method="post"> <!-- used of form tag around button work as a PostMapping -->
+                    <button class="btn btn-primary btn-sm">Update</button>
+                </form>
                 <!--<a th:href="@{'/user/delete/'+${contact.cid}}" class="btn btn-danger btn-sm">Delete</a>-->
                 <a href="#" th:onclick="deleteContact([[${contact.cid}]])" class="btn btn-danger btn-sm">Delete</a>
         </div>
