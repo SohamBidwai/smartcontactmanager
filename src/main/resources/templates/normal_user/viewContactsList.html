@@ -11,7 +11,7 @@
                 <h1 class="text-center">Your Contact</h1>
             </div>
     </div>
-    <div class="mt-5 mr-3 ml-3" style="background-color: white;">
+    <div th:if="${contactList}" class="mt-5 mr-3 ml-3" style="background-color: white;">
         <!--following table-striped this class provide odd even color for rows (multiple classes are available for table in bootstrap) -->
         <table class="table table-striped">
             <thead style="background-color: #fcba03;">
@@ -70,6 +70,9 @@
                 </li>
             </ul>
         </nav>
+    </div>
+    <div th:unless="${contactList}" class="mt-5 mr-3 ml-3 text-center" style="background-color: white;">
+        <h1  style="padding-bottom: 5px;">No saved contact against you...!</h1>
     </div>
 </section>
 </body>

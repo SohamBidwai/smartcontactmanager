@@ -6,9 +6,16 @@
 </head>
 <body>
         <section>
-            <div>
-                <h1>Welcom <span th:text="${user1.name}"></span></h1>
-                <!--<h1><a href="" th:href="@{/logout}">Logout</a></h1>-->
+            <div class="container">
+                    <div class="ml-3 mr-3 mb-3 text-center" style="background-color: white; padding-bottom: 20px;">
+                        <img src="" style="height: 200px; width: 200px; padding: 1%;"  class="my_profile_picture" th:src="@{'/img/'+${user1.imageurl}}" alt="profile photo">
+                        <h1 class="mt-2 text-secondary font-italic font-weight-light" style="padding-bottom: 10px;">
+                            Start adding your contact on cloud.
+                        </h1>
+                        <div class="text-center" style="padding: 0px 20%;">
+                            <a th:href="@{'/normal_user/addContactForm'}" class="btn btn-primary btn-block text-uppercase" >Add New Contact</a>
+                        </div>
+                    </div>
             </div>
         </section>
 </body>

@@ -262,4 +262,12 @@ public class UserController {
         return "redirect:/user/getcontact/0";
     }
 
+    //user profile handler
+    @GetMapping("/user-profile")
+    public String userProfileDetails(Model model, Principal principal, HttpSession session){
+        model.addAttribute("title","User Details");
+        addCommonData(model, principal);
+        return"normal_user/user-profile";
+    }
+
 }

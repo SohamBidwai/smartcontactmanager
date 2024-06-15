@@ -1,7 +1,10 @@
 package com.smartcontactmanager.config;
 
+import com.smartcontactmanager.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -46,6 +49,13 @@ public class MyConfiguration{
     }
 
     @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder, CustomUserDetailsService userDetailsService) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+        return authenticationManagerBuilder.build();
+    }
+
+    /*@Bean
     public UserDetailsService userDetailsService(){
 
         UserDetails adminUser = User
@@ -64,7 +74,7 @@ public class MyConfiguration{
         //InMemoryUserDetailsManager inMemoryUserDetailsManager =new InMemoryUserDetailsManager(adminUser, normalUser);
 
         return new InMemoryUserDetailsManager(adminUser, juniorUser);
-    }
+    }*/
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){

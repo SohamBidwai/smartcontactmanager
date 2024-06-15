@@ -46,12 +46,12 @@
             <div class="description mr-3 ml-3 mt-2" style="background-color: white;">
                 <th:block th:text="${contact.description}"></th:block>
             </div>
-            <div class="mr-3 ml-3 mt-3 mb-3 text-center">
+            <div class="mr-3 ml-3 mt-3 mb-3 text-center" style="display: flex;">
+                <!--<a th:href="@{'/user/delete/'+${contact.cid}}" class="btn btn-danger btn-sm">Delete</a>-->
+                <a href="#" th:onclick="deleteContact([[${contact.cid}]])" class="btn btn-danger btn-sm">Delete</a>
                 <form th:action="@{'/user/update-record/'+${contact.cid}}" method="post"> <!-- used of form tag around button work as a PostMapping -->
                     <button class="btn btn-primary btn-sm">Update</button>
                 </form>
-                <!--<a th:href="@{'/user/delete/'+${contact.cid}}" class="btn btn-danger btn-sm">Delete</a>-->
-                <a href="#" th:onclick="deleteContact([[${contact.cid}]])" class="btn btn-danger btn-sm">Delete</a>
         </div>
         </div>
         <h3 th:unless="${contact}" class="text-center">You are unauthorized person to view this contact...!</h3>
