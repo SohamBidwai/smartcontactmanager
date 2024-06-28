@@ -3,6 +3,7 @@ package com.smartcontactmanager.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -14,7 +15,9 @@ public class Contact {
     private int cid;
     @NotBlank(message = "mandatory field")
     @Size(min=2, max=15, message="minimum 2 or maximum 15 charecter")
+    @Pattern(regexp = "^[A-Za-z ]+$", message = "Name must contain only letters and spaces.")
     private String name;
+    @Pattern(regexp = "^[A-Za-z ]+$", message = "Name must contain only letters and spaces.")
     private String second_name;
     private String work;
     @Column(unique = true)

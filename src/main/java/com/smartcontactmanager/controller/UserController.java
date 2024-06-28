@@ -12,6 +12,9 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -164,8 +167,11 @@ public class UserController {
     @GetMapping("/{cid}/contact")
     public String fetchParticularContactDetails(@PathVariable("cid") Integer contact_id, Model model, Principal principal){
 
+
         Optional<Contact> contactOptional = this.contactRepository.findById(contact_id);
         Contact contact = contactOptional.get();
+
+        //UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         String loginUser = principal.getName();
         User user = this.userRepository.getUserByName(loginUser);
@@ -180,7 +186,7 @@ public class UserController {
     }
 
 
-    //delete particular record
+    //delete particular contact record against user
     @GetMapping("/delete/{cid}")
     public String deleteParticularEntry(@PathVariable("cid") Integer contact_id, Model model, Principal principal, HttpSession session){
 
@@ -269,5 +275,45 @@ public class UserController {
         addCommonData(model, principal);
         return"normal_user/user-profile";
     }
+
+    //fetch user details
+    @GetMapping("/updateUserDetails/{id}")
+    public String updateUserDetails(@PathVariable("id") Integer id,Model model, Principal principal, HttpSession session){
+        System.out.println("Check Contact Person Id: " + id);
+        model.addAttribute("title","Update User Contact Details");
+
+        User userDetails = this.userRepository.getById(id);
+        model.addAttribute("user1",userDetails);
+        userDetails.setPassword("");
+        return "normal_user/updateProfileDetails";
+    }
+
+    //delete particular USER record
+    @GetMapping("/deleteUser/{id}")
+    public String deleteParticularUserEntry(@PathVariable("id") Integer user_id, Model model, Principal principal, HttpSession session){
+
+        Optional<User> userOptional = this.userRepository.findById(user_id);
+        User user = userOptional.get();
+
+        String loginUser = principal.getName();
+        User userDetails = this.userRepository.getUserByName(loginUser);
+
+        if(userDetails.getId()==user.getId()){
+            //before delete User we need to delete contact against that particular user
+            //delete contact aganst user
+            this.contactRepository.deleteContactAgainstUserId(user.getId());
+
+            //delete user
+            this.userRepository.deleteById(user.getId());
+            //image delete is pending.
+
+            model.addAttribute("message",new Message("User deleted successfully....!", "success"));
+            return "redirect:/home";
+        }
+
+        return "redirect:/user/dashboard";
+    }
+
+
 
 }

@@ -22,6 +22,7 @@
                                         </div>
                                     </div>
                                     <input required type="text" id="firstName" name="name" placeholder="First name Here" class="fomr-control"
+                                           th:onblur="checkName(this.id)";
                                            th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''" style="width: 90%;" />
                                     <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
                                     </div>
@@ -34,7 +35,8 @@
                                             <i class="fa fa-user-alt"></i>
                                         </div>
                                     </div>
-                                    <input type="text" id="second_name" name="second_name" placeholder="Last name Here" class="fomr-control" style="width: 90%;" />
+                                    <input type="text" id="second_name" name="second_name" placeholder="Last name Here" class="fomr-control"
+                                           style="width: 90%;" th:onblur="checkName(this.id)";/>
                                 </div>
 
                                 <!-- 3 -->
@@ -55,6 +57,7 @@
                                         </div>
                                     </div>
                                     <input required type="text" id="email" name="email" placeholder="Enter Mail-id Here" class="fomr-control"
+                                           th:onblur="checkEmail(this.id)";
                                           th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''" style="width: 90%;" />
 
                                     <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>

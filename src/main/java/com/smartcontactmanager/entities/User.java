@@ -3,6 +3,7 @@ package com.smartcontactmanager.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
@@ -16,9 +17,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @NotBlank(message = "mandatory field")
+    @Pattern(regexp = "^[A-Za-z ]+$", message = "Name must contain only letters and spaces.")
     @Size(min=2, max=20, message="minimum 2 or maximum 20 charecter")
     public String name;
-    @Email(regexp = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")
+    private static final String EMAIL_REGEX = "^(?=.{1,64}@.{4,64}$)(?=.{6,100}$)[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+    @Pattern(regexp = EMAIL_REGEX, message = "Please enter a valid email.")
     private String email;
     @Size(min=2, message = "Minimum 6 Character required.")
     private String password;

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::Layout(~{::section})}">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${title}"></title>
+    <title>Title</title>
 </head>
 <body>
 <section>
@@ -20,30 +20,30 @@
                         <p th:text="${session.message.content}"></p>
                        <th:block th:text="${#session.removeAttribute('message')}"></th:block>
                     </div>-->
-               <form novalidate action="" th:action="@{/do_register}" enctype="multipart/form-data" method="post" th:object="${user}">
-                <div class="container text-center">
-                    <img id="previewImg" class="mx-auto" style="width: 60px; cursor: pointer;" src="/img/add-friend.png" onclick="chooseFileLocally()" />
-                    <input id="fileInput" type="file" style="display: none;" name="file" onchange="previewFile()" />
-                </div>
+                    <form novalidate action="" th:action="@{/do_register}" enctype="multipart/form-data" method="post" th:object="${user1}">
+                        <div class="container text-center">
+                            <img id="previewImg" class="mx-auto" style="width: 60px; cursor: pointer;" th:src="@{'/img/'+${user1.imageurl}}" onclick="chooseFileLocally()" />
+                            <input id="fileInput" type="file" style="display: none;" name="file" onchange="previewFile()" />
+                        </div>
 
-                    <h1 class="text-center">Register Here</h1>
+                        <h1 class="text-center">Register Here</h1>
 
                         <div class="form-group">
                             <label for="user_name">User Name</label>
                             <input name="name" type="text" class="form-control" th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''"
                                    th:onblur="checkName(this.id)";
-                                   id="user_name" aria-describedby="emailHelp" placeholder="Enter Your Name" required="required" th:value="${user.name}">
+                                   id="user_name" aria-describedby="emailHelp" placeholder="Enter Your Name" required="required" th:value="${user1.name}">
                             <!--/* th:val="${user.name} this is an form value during submitting. */-->
 
                             <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
                             </div>
                         </div>
-                   <input id="hiddenUserId" type="hidden" name="id" th:value="0" />
+                        <input id="hiddenUserId" type="hidden" name="id" th:value="${user1.id}" />
                         <div class="form-group">
                             <label for="user_email">Email</label>
                             <input name="email" type="email" class="form-control" id="user_email" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''"
                                    th:onblur="checkEmail(this.id)";
-                                   aria-describedby="emailHelp" placeholder="Enter Email id" required="required" th:value="${user.email}">
+                                   aria-describedby="emailHelp" placeholder="Enter Email id" required="required" th:value="${user1.email}">
 
                             <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
                             </div>
@@ -53,14 +53,14 @@
                             <label for="user_password">Password</label>
                             <input name="password" type="password" class="form-control" id="user_password" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''"
                                    th:onblur="checkPassword(this.id)";
-                                   aria-describedby="emailHelp" placeholder="Enter a password" required="required" th:value="${user.password}">
+                                   aria-describedby="emailHelp" placeholder="Enter a password" required="required" th:value="${user1.password}">
 
                             <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <textarea  name="about"  th:text="${user.about}" placeholder="Enter About you" rows="10" class="form-control"></textarea>
+                            <textarea  name="about"  th:text="${user1.about}" placeholder="Enter About you" rows="10" class="form-control"></textarea>
                         </div>
 
                         <!--Terms and Conditions-->

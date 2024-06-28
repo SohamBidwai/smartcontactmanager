@@ -43,6 +43,13 @@
                     </tbody>
                 </table>
             </div>
+            <div class="mr-3 ml-3 mt-2 mb-2" style="display: flex;">
+                <form th:action="@{'/user/updateUserDetails/'+${user1.id}}" method="get"> <!-- used of form tag around button work as a PostMapping -->
+                    <button class="btn btn-primary btn-sm">Update</button>
+                </form>
+                <!--<a th:href="@{'/user/delete/'+${c.cid}}" class="btn btn-danger btn-sm">Delete</a>-->
+                <a href="#" th:onclick="deleteUser([[${user1.id}]])" class="btn btn-danger btn-sm">Delete</a>
+            </div>
         </div>
     </section>
 </body>
