@@ -4,16 +4,32 @@
     <meta charset="UTF-8">
     <title th:text="${title}"></title>
 </head>
-<body>
+<body id="profile-body">
         <section>
-            <div class="container">
-                    <div class="ml-3 mr-3 mb-3 text-center" style="background-color: white; padding-bottom: 20px;">
+            <div class="container" style="width: 60%;">
+
+                    <!--<div class="ml-3 mr-3 mb-3 text-center" style="background-color: white; padding-bottom: 20px;">
                         <img src="" style="height: 200px; width: 200px; padding: 1%;"  class="my_profile_picture" th:src="@{'/img/'+${user1.imageurl}}" alt="profile photo">
                         <h1 class="mt-2 text-secondary font-italic font-weight-light" style="padding-bottom: 10px;">
                             Start adding your contact on cloud.
                         </h1>
                         <div class="text-center" style="padding: 0px 20%;">
                             <a th:href="@{'/normal_user/addContactForm'}" class="btn btn-primary btn-block text-uppercase" >Add New Contact</a>
+                        </div>
+                    </div>-->
+
+                    <div class="ml-3 mr-3 mb-3 text-center profile-card" id="welcomeCard">
+                        <img src="" style="height: 200px; width: 200px; padding: 1%;"  class="my_profile_picture" th:src="@{'/img/'+${user1.imageurl}}" alt="profile photo">
+                        <div class="profile-card-header">Welcome</div>
+                        <div class="profile-card-body" style="display: flex; justify-content: space-between;">
+                            <div>
+                                <span id="userName" th:text="${user1.name}"></span>
+                            </div>
+                            <div>
+                                <a th:href="@{'/user/add-contact'}" class="text-uppercase" style="display: inline-block;">
+                                    <i class="bi bi-person-plus" style="font-size: 24px;"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
             </div>
