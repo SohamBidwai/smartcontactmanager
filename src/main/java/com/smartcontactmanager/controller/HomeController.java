@@ -1,21 +1,29 @@
 package com.smartcontactmanager.controller;
 
 import com.smartcontactmanager.dao.UserRepository;
+import com.smartcontactmanager.entities.JWTResponse;
 import com.smartcontactmanager.entities.User;
+import com.smartcontactmanager.helper.JWTHelper;
 import com.smartcontactmanager.helper.Message;
+import com.smartcontactmanager.service.CustomUserDetailsService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -32,6 +40,15 @@ public class HomeController {
 
     @Autowired(required=true)
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+
+    @Autowired
+    private JWTHelper jwtHelper;
 
     @RequestMapping("/home")
     public String home(Model model){
@@ -61,6 +78,30 @@ public class HomeController {
         session.removeAttribute("message");
         return "signup";
     }
+
+    /*@PostMapping(value="/login", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<?> userLogin(@RequestBody User user){
+        String token="";
+        try {
+
+            //when following line execute so internally CustomerUserDetailsService call.
+            //And also BCryptPasswordEncoder this also called internally. (Check password correct or not)
+            this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+
+            UserDetails loginUser = this.customUserDetailsService.loadUserByUsername(user.getEmail());
+
+            String userjwtToken = jwtHelper.generateToken(loginUser);
+            System.out.println("Check Token: "+ userjwtToken);
+            return ResponseEntity.ok(new JWTResponse(userjwtToken));
+
+        }catch (UsernameNotFoundException e){
+            //e.printStackTrace();
+            return new ResponseEntity<>("User Not Found", HttpStatus.UNAUTHORIZED);
+        }catch (BadCredentialsException ee){
+            //ee.printStackTrace();
+            return new ResponseEntity<>("Bad credentials", HttpStatus.UNAUTHORIZED);
+        }
+    }*/
 
     //following handler for registration
     @RequestMapping(value="/do_register", method = RequestMethod.POST)

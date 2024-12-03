@@ -68,7 +68,7 @@ public class ForJWTController {
         //we need to pass token in JSON form so we used JWTResponse class
         //{"token":usertoken}
 
-        return ResponseEntity.ok(new JWTResponse(usertoken));
+        return ResponseEntity.ok(new JWTResponse(usertoken)); //Here JWTResponse class is used to return JWT token as string.
     }
 
 }

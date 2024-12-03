@@ -49,7 +49,7 @@ public class MyConfiguration{
                                         // Configure form login using lambda
 
                 //Following code authenticate token for each request
-        //httpSecurity.addFilterBefore(jwtAuthenticationFillter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(jwtAuthenticationFillter, UsernamePasswordAuthenticationFilter.class);
 
         httpSecurity.logout(logout -> logout
                     .permitAll()

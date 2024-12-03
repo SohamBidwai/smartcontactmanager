@@ -20,6 +20,7 @@ public class JWTHelper {
     //Following secret required 256 byte size.
 
     private String SECRET_KEY = "sbids@0508219764107916MyfirstProject";
+    //On following line we convert above SECRET_KEY to SECRET_KEY with HS256 algorithm.
     private SecretKey SECRET_KEY_SPEC = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
     //retrieve username from token
@@ -48,6 +49,7 @@ public class JWTHelper {
 
     //generate token for a user Following UserDetails contains username and password
     public String generateToken(UserDetails userDetails) {
+        //If suppose we need to pass other details of user so we pass to claims
         Map<String, Object> claims = new HashMap<>();
         return createToken(claims, userDetails.getUsername());
     }
@@ -62,7 +64,7 @@ public class JWTHelper {
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) //set token expiration period from when token is generate
                 .signWith(SECRET_KEY_SPEC, SignatureAlgorithm.HS256)
                 .compact();
     }
